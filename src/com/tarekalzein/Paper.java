@@ -13,12 +13,15 @@ class Paper extends JPanel {
     
     private HashSet hs = new HashSet();
     ConnectionHelper connection;
+    PointBean bean =new PointBean();
 
     public Paper(ConnectionHelper connection) {
         this.connection = connection;
+        connection.setBean(bean);
         setBackground(Color.white);
         addMouseListener(new L1());
         addMouseMotionListener(new L2());
+        listen();
     }
 
     public void paintComponent(Graphics g) {
@@ -42,10 +45,10 @@ class Paper extends JPanel {
         repaint();
     }
 
-    public void addRemotePoints(int x, int y)
-    {
-        Point p = new Point(x,y);
-        addPoint(p);
+    public void listen(){
+        bean.addPropertyChangeListener(e ->
+                addPoint((Point)e.getNewValue())
+                );
     }
 
     class L1 extends MouseAdapter {

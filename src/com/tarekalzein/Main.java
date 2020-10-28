@@ -11,6 +11,10 @@ public class Main extends JFrame {
 
     private static Paper p;
 
+    /***
+     * Main method, takes data from arguments to create a connectionHelper instance and pass it through.
+     * @param args
+     */
     public static void main(String[] args) {
         try
         {
@@ -25,8 +29,10 @@ public class Main extends JFrame {
         }
     }
 
+    /***
+     * Method to recreate the Main with a Paper.
+     */
     public Main(){
-
         p = new Paper(connection);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().add(p, BorderLayout.CENTER);
