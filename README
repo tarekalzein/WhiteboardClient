@@ -1,1 +1,6 @@
+Whiteboard server/client application:
+This is a simple application to implement UDP communication using DatagramSocket.
+The application runs a Paper that takes mouse input to draw on it and send these points to a listening application that does exactly the same.
+Features can be extended to change brush size and color and send that over UDP, this would require implementing some kind of protocol to decide what action to do according to the received datagramPacket.
 
+This application is a homework for the course: Programming for internet (Programmering för Internet IPROG), which is given at Stockholm university.
