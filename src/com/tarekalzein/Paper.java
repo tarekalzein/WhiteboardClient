@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -27,22 +28,31 @@ class Paper extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.black);
-        Iterator i = hs.iterator();
-        while(i.hasNext()) {
-            Point p = (Point)i.next();
-            g.fillOval(p.x, p.y, 2, 2);
+
+        try{
+            Iterator i = hs.iterator();
+            while(i.hasNext()) {
+                Point p = (Point)i.next();
+                g.fillOval(p.x, p.y, 2, 2);
+            }
+        }catch(ConcurrentModificationException ex)
+        {
+            //TODO: Find a fix for the concurrency bug. It is caused by adding new points to
+            // hs (from udp connected client) while iterating the hashset at the same time
         }
+
     }
 
     private void addPoint(Point p) {
         hs.add(p);
+
+        repaint();
         try {
             String dataToSend = p.x + " "+p.y;
             connection.send(dataToSend);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-        repaint();
     }
 
     public void listen(){
